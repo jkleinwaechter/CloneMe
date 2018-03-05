@@ -12,8 +12,7 @@ It is easy to get crossed up the the different naming conventions used in ASK de
 * **Invocation Name** - This is the phrase that will be used to invoke your app by the user. In order to pas certification you will need to use two or more words, separated by a space and have no capitalization. Keep this short so that you don't burden the user. It is highly recommended that your *Skill Name* match your *Invocation Name*, without the capital letters, again to avoid confusing the user.
 * **Function Name** - This is the name of the Lambda function that will host your skill's code. The function name must contain only letters, numbers, hyphens, or underscores. This makes it impossible for your *Skill Name*, *Invocation Name*, and *Function Name* to be the same words.
 
-My personal convention is to simply remove the spaces from my *Skill Name* and then use camel case for the function name.
-Defaults for this template:
+My personal convention is to simply remove the spaces from my *Skill Name* and then use camel case for the function name as such:
 
 * Skill Name: *My Skill*
 * Invocation Name: *my skill*
@@ -25,12 +24,13 @@ This is ridiculous. Tell Amazon.
 Even though this is a GitHub repository, there is no need to clone this directory in the traditional fashion. It exists here to enable the ASK CLI to clone on to your system. Just follow the steps below.
 
 1. Change directories to the location where you want the project to exist.
-2. Run the following ASK CLI command. Make sure you replace 'Your Skill' with your *Skill Name*.
+2. Run the following ASK CLI command. I recommend you replace 'Your Skill' with your *Function Name* since it does not like spaces or capitalization. Ugh!
   * ```ask new --template CloneMe --url https://s3.amazonaws.com/jk-ask/templates.json --skill-name "my skill" ``` 
-3. Make the following pre-deployment edits:
+3. Make the following pre-deployment edits. These are necessary because the ASK CLI makes silly defaults, despite what you put in as your skill name above. Change these now so that they don't propogate to the server when committed.
 
-  * **./.ask/config** - Change the value associated "uri" to your *Function Name*.
-  * **./skill.json** - Change the value associated with *"name"* to your *Invocation Name*. 
+  * **./.ask/config** - Change the value associated with "uri" to your *Function Name*.
+  * **./skill.json** - Change the value associated with "name" to your *Skill Name*. 
+  * **./models/en-US.json** - Change the value associated with "invocationName" to your *Invocation Name*. 
 4. **ask deploy** - This will send the model and code to the Alexa and Lambda servers.
 5. Make the following post-deployment edits:
   * **AWS Lambda** - Go to your skill's lambda instance and set 'Runtime' to *Python 2.7*, 'Handler' to *main.entryPoint*, and save. I told you Python wa a second class citizen.
