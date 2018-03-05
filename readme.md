@@ -1,4 +1,4 @@
-#Basic Alexa Skill Template for Python
+# Basic Alexa Skill Template for Python
 Most of the templates within the Alexa Skills platform are in node.js. Those that are in python are fully formed apps that don't align with the new ASK CLI structure, leaving you the task of reforming that.
 
 This is a bare bones template that you can use for python. It is a functioning skill (that does nothing useful) that provides the basic interaction functions required for a basic skill and is organized and populated with the elements required for using the ASK CLI.
@@ -11,9 +11,9 @@ Also note that if you elect options 2 or 3, you will need to install and have kn
   2. Alexa Skill Kit (ASK) Command Line Interface (CLI) template
   3. ASK CLI clone command
  
-##1. GitHub (manual)
+## 1. GitHub (manual)
 If you don't want to learn the ASK CLI, this process can get you to a working skill. I recommend that you do learn the ASK CLI at some point as it will make the development process much easier.
-###Steps
+### Steps
 
   1. Clone this repository
   2. Make the edits noted in the Edits section below
@@ -23,7 +23,7 @@ If you don't want to learn the ASK CLI, this process can get you to a working sk
   6. Copy the JSON within ./models/eh-US.json to the JSON editor of ASK model builder,
   7. Fill in the ARN of your lambda app into the Endpoint section of the ASK model builder
 
-##2. ASK CLI template
+## 2. ASK CLI template
 If you have already setup the ASK CLI, this is the easiest and fastest way to get started. You don't need to clone this library - the template will pick it up for you.
 
 1. Change to the location where you want the project to exist.
@@ -33,7 +33,7 @@ If you have already setup the ASK CLI, this is the easiest and fastest way to ge
 
 
 
-##3. ASK CLI clone command
+## 3. ASK CLI clone command
 This method is still a viable option, however it is rather outdated now that the ASK CLI new command has the template option noted above.
 
 This option is used when you have already loaded the CloneMe projet into ASK and Lmabda and want to use it to create a new project from that base.
@@ -42,22 +42,22 @@ Once you have your skill in your system, I recommend leaving it as a template fo
 
 These steps assume you have have [installed the ASK CLI](https://developer.amazon.com/docs/smapi/quick-start-alexa-skills-kit-command-line-interface.html)
 
-###Steps
+### Steps
 * 1. ***ask clone*** - from here select the CLoneMe project that you have previosuly loaded using one of the options above.
 * 2. Make the edits noted in the Edits section below before republishing. Note that especially critical is the edits within the hidden directory *./.ask*.
 * 3. ***ask deploy*** - This will commit your code the the servers.
 
 See the [ASK CLI reference] (https://developer.amazon.com/docs/smapi/ask-cli-command-reference.html) for more information on command options.
 
-##STRUCTURE
-###Directory Structure
+## STRUCTURE
+### Directory Structure
 The code is organized to be in a format that can be used by the AWS CLI. This will be handy if you decide to go down that path later.
 
 * **./lambda/**  - This contains the code that is placed in AWS Lambda. Note that the vast majority of code here are Python libraries that Lambda does not include. It is a rather painful process to determine what lbraries Lambda does not support, but these seem to be the most common ones. Most of these are only needed if you are making REST calls within your app. I would recommend keeping them until you decide you don't need them.
 * **./models/** - This contains the JSON that is used in defining the interactionmodel within ASK.
 * **./skill.json** - This file contains the publishing information for your application. When using the ASK CLU, it will populate all of the fields in the publishing section of the ASK developer console. 
 
-###Lambda Files
+### Lambda Files
 * ***main.py*** - entry point for lambda execution. Everything routes from here. When you add new intents, you put the intent name in here and put tha corresponding handler function in intents.py
 
 * ***intents.py*** - Place all of your intent handlers in here.I highly recommend keeping this file just for the entry ppints of all of the intents and placing corresponding business logice in a seaparate file.
@@ -79,26 +79,26 @@ The following are python modules that are added mostly so that you can use the R
 * ***urllib3/***
 * ***pkg_resources.py***
 
-##EDITS
+## EDITS
 When reusing this template, there are are a number of edits you will need to make before deploying your new skill.
 
-###.ask/config
+### .ask/config
 These edits are crucial when cloning a project. When you clone a project, these get set to point back to yoour existing lambda function. You need to change these to ensure that when you deploy, it goes in a s a new skill and function
 
 * skill_id = ""
 * was_cloned = false
 * uri = "New Skill Name"
 
-###skill.json
+### skill.json
 This is the manifest used for publishing. Fill it in accordingly
-###models/en-US.json
+### models/en-US.json
 This is the interaction model for your app. Fill it in accordingly
-###lambda/custom/globals
+### lambda/custom/globals
 * alexaSkillName = "Skill Name"
 * skillID = "Your AMZN skill id"
 
 
-##Helpful ASK CLI commands
+## Helpful ASK CLI commands
 
 * **ask deploy**  (does everything)
 * **ask deploy -t lambda**  (code only)
