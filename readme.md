@@ -27,8 +27,9 @@ If you don't want to learn the ASK CLI, this process can get you to a working sk
 If you have already setup the ASK CLI, this is the easiest and fastest way to get started. You don't need to clone this library - the template will pick it up for you.
 
 1. Change to the location where you want the project to exist.
-2. Run the following ASK CLI command. Make sure you replace 'YourSkillName' with your project name. ```ask new --template CloneMe --url https://s3.amazonaws.com/jk-ask/templates.json --skill-name YourSkillName ``` 
-3. Customize your skill to your satsifaction
+2. Run the following ASK CLI command. Make sure you replace 'YourSkillName' with your project name. 
+```ask new --template CloneMe --url https://s3.amazonaws.com/jk-ask/templates.json --skill-name YourSkillName ``` 
+3. Customize your skill to your satsifaction. Look at the EDITS section below for things you will need to customize.
 4. **ask deploy** - this will send the model and code to the Alexa and Lambda servers.
 
 
