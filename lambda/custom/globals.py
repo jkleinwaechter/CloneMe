@@ -1,3 +1,3 @@
 debug = True
-alexaSkillName = "My Skill"
+alexaSkillName = "my skill"
 skillID = ""

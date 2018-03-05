@@ -1,7 +1,7 @@
 {
   "interactionModel": {
     "languageModel": {
-      "invocationName": "clone me",
+      "invocationName": "my skill",
       "intents": [
         {
           "name": "BasicCall",

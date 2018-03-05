@@ -26,7 +26,7 @@ Even though this is a GitHub repository, there is no need to clone this director
 
 1. Change directories to the location where you want the project to exist.
 2. Run the following ASK CLI command. Make sure you replace 'Your Skill' with your *Skill Name*.
-  * ```ask new --template CloneMe --url https://s3.amazonaws.com/jk-ask/templates.json --skill-name "Your Skill" ``` 
+  * ```ask new --template CloneMe --url https://s3.amazonaws.com/jk-ask/templates.json --skill-name "my skill" ``` 
 3. Make the following pre-deployment edits:
 
   * **./.ask/config** - Change the value associated "uri" to your *Function Name*.
