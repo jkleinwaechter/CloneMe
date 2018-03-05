@@ -1,0 +1,53 @@
+{
+  "manifest": {
+    "publishingInformation": {
+      "locales": {
+        "en-US": {
+          "summary": "Single line summary of skill when published",
+          "examplePhrases": [
+            "Alexa, ask Clone Me ",
+            "Alexa, ask Clone Me number 42"
+          ],
+          "keywords": [
+            "keyword 1",
+            "keyword 2",
+            "keyword 3",
+            "keyword 4"
+          ],
+          "name": "Clone Me",
+          "smallIconUri": "",
+          "description": "Long Description",
+          "largeIconUri": ""
+        }
+      },
+      "isAvailableWorldwide": true,
+      "testingInstructions": "Testing Instructions Go Here",
+      "category": "FRIENDS_AND_FAMILY",
+      "distributionCountries": []
+    },
+    "apis": {
+      "custom": {
+        "endpoint": {
+          "sourceDir": "lambda/custom"
+        },
+        "interfaces": []
+      }
+    },
+    "manifestVersion": "1.0",
+    "permissions": [
+      {
+        "name": "alexa::household:lists:read"
+      },
+      {
+        "name": "alexa::household:lists:write"
+      }
+    ],
+    "privacyAndCompliance": {
+      "allowsPurchases": false,
+      "isExportCompliant": true,
+      "containsAds": false,
+      "isChildDirected": false,
+      "usesPersonalInfo": false
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "interactionModel": {
+    "languageModel": {
+      "invocationName": "clone me",
+      "intents": [
+        {
+          "name": "BasicCall",
+          "samples": []
+        },
+        {
+          "name": "BasicCallWithSlot",
+          "slots": [
+            {
+              "name": "INDEX",
+              "type": "AMAZON.NUMBER"
+            }
+          ],
+          "samples": [
+            "{INDEX}",
+            "number {INDEX}"
+          ]
+        },
+        {
+          "name": "AMAZON.HelpIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.StopIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.CancelIntent",
+          "samples": []
+        }
+      ]
+    }
+  }
+}
