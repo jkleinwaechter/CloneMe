@@ -11,11 +11,15 @@ def entryPoint(event, context):
         globals.debug = True
 
     # Security check to ake sure that we are being called by the exepcted Alexa skill
-    presentedId = event["session"]["application"]["applicationId"]
-    if (globals.skillID != presentedId):
+    if globals.skillID == "":
         if globals.debug is True:
-            print "Invalid Application id %s. Expected %s" % (presentedId, globals.skillID)
-        raise ValueError("Invalid Application ID")
+            print "SkillId checking disabled. Please add the skill id to globals.py to ensure secure calling."
+    else:
+        presentedId = event["session"]["application"]["applicationId"]
+        if (globals.skillID != presentedId):
+            if globals.debug is True:
+                print "Invalid Application id %s. Expected %s" % (presentedId, globals.skillID)
+            raise ValueError("Invalid Application ID")
 
     #
     # New Session Request
