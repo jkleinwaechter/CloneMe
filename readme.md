@@ -1,54 +1,44 @@
 # Basic Alexa Skill Template for Python
 Most of the templates within the Alexa Skills platform are in node.js. Those that are in python are fully formed apps that don't align with the new ASK CLI structure, leaving you the task of reforming that.
 
-This is a bare bones template that you can use for python. It is a functioning skill (that does nothing useful) that provides the basic interaction functions required for a basic skill and is organized and populated with the elements required for using the ASK CLI.
+This is a bare bones template that you can use for python. It is a functioning skill, that does nothing useful other than providing the basic interaction functions required for a skill. It is organized and populated with the elements required for using the Alexa Skill Kit Command Line Interface (ASK CLI) automation commands. The opther advantage is that I have included optinal files to get you going in making HTTP/REST calls as that is a very common situation in many skills.
 
-There are several ways you can clone and own this. All of these require knowledge of how to setup an Alexa skill and also require you to have a working Amazon developer account as well as an AWS account. If you are not familiar with how to do this, check out this awesome CloudGuru [introductory course](https://acloud.guru/course/intro-alexa-free/dashboard).
+I am assuming you have a basic knowledge of setting up an Alexa environment, including associated Lambda functions. If not, I highly recommend this awesome CloudGuru [introductory course](https://acloud.guru/course/intro-alexa-free/dashboard). It is also expected that you have installed and configured your ASK CLI environment. If not, here's a great [step-by-step tutorial](https://developer.amazon.com/docs/smapi/quick-start-alexa-skills-kit-command-line-interface.html).
 
-Also note that if you elect options 2 or 3, you will need to install and have knowledge of using the Alexa Skill Kit Command Line Interface (ASK CLI) and have installed the Amazon Web Services Command Line Interface (AWS CLI). While this is more initial work, you will be one step closer to a fully automatable ASK development process.
+### A Note About Names
+It is easy to get crossed up the the different naming conventions used in ASK development. There are basically three separate names:
 
-  1. GitHub (manual)
-  2. Alexa Skill Kit (ASK) Command Line Interface (CLI) template
-  3. ASK CLI clone command
- 
-## 1. GitHub (manual)
-If you don't want to learn the ASK CLI, this process can get you to a working skill. I recommend that you do learn the ASK CLI at some point as it will make the development process much easier.
-### Steps
+* **Skill Name** - This is the name that will be used when you publish your skill. While it can be anything you want, it should be two or three words, separated by spaces. This is so that there is a close tie between your app name and the *Invocation Name*, discussed next.
+* **Invocation Name** - This is the phrase that will be used to invoke your app by the user. In order to pas certification you will need to use two or more words, separated by a space and have no capitalization. Keep this short so that you don't burden the user. It is highly recommended that your *Skill Name* match your *Invocation Name*, without the capital letters, again to avoid confusing the user.
+* **Function Name** - This is the name of the Lambda function that will host your skill's code. The function name must contain only letters, numbers, hyphens, or underscores. This makes it impossible for your *Skill Name*, *Invocation Name*, and *Function Name* to be the same words.
 
-  1. Clone this repository
-  2. Make the edits noted in the Edits section below
-  3. Create your AWS Lambda function
-  4. Zip up the lambda directory and upload it. Only include the files within the directory and not the directory itself!
-  5. Create a new Alexa skill
-  6. Copy the JSON within ./models/eh-US.json to the JSON editor of ASK model builder,
-  7. Fill in the ARN of your lambda app into the Endpoint section of the ASK model builder
+My personal convention is to simply remove the spaces from my *Skill Name* and then use camel case for the function name.
+Defaults for this template:
 
-## 2. ASK CLI template
-If you have already setup the ASK CLI, this is the easiest and fastest way to get started. You don't need to clone this library - the template will pick it up for you.
+* Skill Name: *My Skill*
+* Invocation Name: *my skill*
+* Function name: *mySkill*
 
-1. Change to the location where you want the project to exist.
-2. Run the following ASK CLI command. Make sure you replace 'YourSkillName' with your project name. 
-```ask new --template CloneMe --url https://s3.amazonaws.com/jk-ask/templates.json --skill-name YourSkillName ``` 
-3. Customize your skill to your satsifaction. Look at the EDITS section below for things you will need to customize.
-4. **ask deploy** - this will send the model and code to the Alexa and Lambda servers.
+This is ridiculous. Tell Amazon.
 
+## ASK CLI template
+Even though this is a GitHub repository, there is no need to clone this directory in the traditional fashion. It exists here to enable the ASK CLI to clone on to your system. Just follow the steps below.
 
+1. Change directories to the location where you want the project to exist.
+2. Run the following ASK CLI command. Make sure you replace 'Your Skill' with your *Skill Name*.
+  * ```ask new --template CloneMe --url https://s3.amazonaws.com/jk-ask/templates.json --skill-name "Your Skill" ``` 
+3. Make the following pre-deployment edits:
 
-## 3. ASK CLI clone command
-This method is still a viable option, however it is rather outdated now that the ASK CLI new command has the template option noted above.
+  * **./.ask/config** - Change the value associated "uri" to your *Function Name*.
+  * **./skill.json** - Change the value associated with *"name"* to your *Invocation Name*. 
+4. **ask deploy** - This will send the model and code to the Alexa and Lambda servers.
+5. Make the following post-deployment edits:
+  * **AWS Lambda** - Go to your skill's lambda instance and set 'Runtime' to *Python 2.7*, 'Handler' to *main.entryPoint*, and save. I told you Python wa a second class citizen.
+  * **./lambda/custom.globals.py** - Two changes required here. Change the value associated with alexaSkillName to your *Skill Name*. Change the skillID to match your skill. You can copy and paste this from the *./.ask/config* file's *skill_id* attribute.
 
-This option is used when you have already loaded the CloneMe projet into ASK and Lmabda and want to use it to create a new project from that base.
+6. **ask deploy -t lambda** - This will cause your newly edited code to be put back in place on lambda
 
-Once you have your skill in your system, I recommend leaving it as a template for your future apps. Customize it to how you want it and then you can use the clone command to replicate it.
-
-These steps assume you have have [installed the ASK CLI](https://developer.amazon.com/docs/smapi/quick-start-alexa-skills-kit-command-line-interface.html)
-
-### Steps
-* 1. ***ask clone*** - from here select the CLoneMe project that you have previosuly loaded using one of the options above.
-* 2. Make the edits noted in the Edits section below before republishing. Note that especially critical is the edits within the hidden directory *./.ask*.
-* 3. ***ask deploy*** - This will commit your code the the servers.
-
-See the [ASK CLI reference] (https://developer.amazon.com/docs/smapi/ask-cli-command-reference.html) for more information on command options.
+Now you can make all the changes to the model or the code on your local system. Whenever you are ready to put the changes on the server just **ask deploy**. Note that this will put everything and cause you to wait for the model to be built. Since this can sometimes be lengthy, if you are just replacing the code and not changing the model, just use **ask deploy -t lambda** instead. It will be much faster.
 
 ## STRUCTURE
 ### Directory Structure
@@ -56,7 +46,7 @@ The code is organized to be in a format that can be used by the AWS CLI. This wi
 
 * **./lambda/**  - This contains the code that is placed in AWS Lambda. Note that the vast majority of code here are Python libraries that Lambda does not include. It is a rather painful process to determine what lbraries Lambda does not support, but these seem to be the most common ones. Most of these are only needed if you are making REST calls within your app. I would recommend keeping them until you decide you don't need them.
 * **./models/** - This contains the JSON that is used in defining the interactionmodel within ASK.
-* **./skill.json** - This file contains the publishing information for your application. When using the ASK CLU, it will populate all of the fields in the publishing section of the ASK developer console. 
+* **./skill.json** - This your your skill's manifest. It contains the publishing information for your application. When using the ASK CLI, it will populate all of the fields in the publishing section of the ASK developer console. 
 
 ### Lambda Files
 * ***main.py*** - entry point for lambda execution. Everything routes from here. When you add new intents, you put the intent name in here and put tha corresponding handler function in intents.py
@@ -79,24 +69,6 @@ The following are python modules that are added mostly so that you can use the R
 * ***requests/***
 * ***urllib3/***
 * ***pkg_resources.py***
-
-## EDITS
-When reusing this template, there are are a number of edits you will need to make before deploying your new skill.
-
-### .ask/config
-These edits are crucial when cloning a project. When you clone a project, these get set to point back to yoour existing lambda function. You need to change these to ensure that when you deploy, it goes in a s a new skill and function
-
-* skill_id = ""
-* was_cloned = false
-* uri = "New Skill Name"
-
-### skill.json
-This is the manifest used for publishing. Fill it in accordingly
-### models/en-US.json
-This is the interaction model for your app. Fill it in accordingly
-### lambda/custom/globals
-* alexaSkillName = "Skill Name"
-* skillID = "Your AMZN skill id"
 
 
 ## Helpful ASK CLI commands

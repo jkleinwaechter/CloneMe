@@ -5,16 +5,16 @@
         "en-US": {
           "summary": "Single line summary of skill when published",
           "examplePhrases": [
-            "Alexa, ask Clone Me ",
-            "Alexa, ask Clone Me number 42"
+            "Alexa, ask my skill ",
+            "Alexa, ask my skill number 42"
           ],
           "keywords": [
-            "keyword 1",
-            "keyword 2",
-            "keyword 3",
-            "keyword 4"
+            "keyword1",
+            "keyword2",
+            "keyword3",
+            "keyword4"
           ],
-          "name": "Clone Me",
+          "name": "my skill",
           "smallIconUri": "",
           "description": "Long Description",
           "largeIconUri": ""
@@ -34,14 +34,6 @@
       }
     },
     "manifestVersion": "1.0",
-    "permissions": [
-      {
-        "name": "alexa::household:lists:read"
-      },
-      {
-        "name": "alexa::household:lists:write"
-      }
-    ],
     "privacyAndCompliance": {
       "allowsPurchases": false,
       "isExportCompliant": true,
