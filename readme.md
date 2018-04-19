@@ -24,7 +24,7 @@ This is ridiculous. Tell Amazon.
 Even though this is a GitHub repository, there is no need to clone this directory in the traditional fashion. It exists here to enable the ASK CLI to clone on to your system. Just follow the steps below.
 
 1. Change directories to the location where you want the project to exist.
-2. Run the following ASK CLI command. I recommend you replace 'Your Skill' with your *Function Name* since it does not like spaces or capitalization. Ugh!
+2. Run the following ASK CLI command. I recommend you replace 'my skill' with your *Function Name* since it does not like spaces or capitalization. Ugh!
   * ```ask new --template CloneMe --url https://s3.amazonaws.com/jk-ask/templates.json --skill-name "my skill" ``` 
 3. Make the following pre-deployment edits. These are necessary because the ASK CLI makes silly defaults, despite what you put in as your skill name above. Change these now so that they don't propogate to the server when committed.
 
