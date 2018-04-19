@@ -1,125 +1,189 @@
+'''----------------------------------------------------------------------------------------------
+This is the main entry function and distributor for all Alexa invocations
+----------------------------------------------------------------------------------------------'''
+
 import globals
 import os
 from intents import basicCall, basicCallWithSlot, getHelp, handleSessionEndRequest
 
 
-# Make sure you list main.entryPoint as your entry point in your Lambda configuration page
 def entryPoint(event, context):
+    '''----------------------------------------------------------------------------------------------
+    The main entry point for an AWS Lambda function. Make usre you ist main.entryPoint as the starting
+    point on your AWS page.
+
+    Parameters
+    ----------
+        event : dict
+            AWS event data. The dictionary representation of the Alexa JSON Request object
+        context : dict
+            AWS Lambda context object (unused)
+
+    Returns
+    -------
+        dictionary
+            The Alexa JSON Response object
+
+    Notes
+    -----
+        https://docs.aws.amazon.com/lambda/latest/dg/python-programming-model-handler-types.html
+        https://developer.amazon.com/docs/custom-skills/request-and-response-json-reference.html
+
+    ----------------------------------------------------------------------------------------------'''
 
     # See if environment string has debug turned on.
     if 'debug' in os.environ:
         globals.debug = True
 
     # Security check to ake sure that we are being called by the exepcted Alexa skill
-    if globals.skillID == "":
+    if globals.skillID == '':
         if globals.debug is True:
-            print "SkillId checking disabled. Please add the skill id to globals.py to ensure secure calling."
+            print 'SkillId checking disabled. Please add the skill id to globals.py to ensure secure calling.'
     else:
-        presentedId = event["session"]["application"]["applicationId"]
+        presentedId = event['session']['application']['applicationId']
         if (globals.skillID != presentedId):
             if globals.debug is True:
-                print "Invalid Application id %s. Expected %s" % (presentedId, globals.skillID)
-            raise ValueError("Invalid Application ID")
+                print 'Invalid Application id %s. Expected %s' % (presentedId, globals.skillID)
+            raise ValueError('Invalid Application ID')
 
     #
     # New Session Request
     #
-    if event["session"]["new"]:
+    if event['session']['new']:
         if globals.debug is True:
-            print "New Session Request"  # Stubbed here in case we do something eventually with this
-        onSessionStarted(event["request"]["requestId"], event["session"])
+            print 'New Session Request'  # Stubbed here in case we do something eventually with this
+        onSessionStarted(event['request']['requestId'], event['session'])
     #
     # Launch Request
     #
-    if event["request"]["type"] == "LaunchRequest":
+    if event['request']['type'] == 'LaunchRequest':
         if globals.debug is True:
-            print "Launch Request"
-        return onLaunch(event["request"], event["session"], event["context"])
+            print 'Launch Request'
+        return onLaunch(event['request'], event['session'], event['context'])
 
     #
     # Intent Request
     #
-    elif event["request"]["type"] == "IntentRequest":
+    elif event['request']['type'] == 'IntentRequest':
         if globals.debug is True:
-            print "Intent Request"
-        return onIntent(event["request"], event["session"], event["context"])
+            print 'Intent Request'
+        return onIntent(event['request'], event['session'], event['context'])
     #
     # Session End Request
     #
-    elif event["request"]["type"] == "SessionEndedRequest":  # stubbed here in case we do something eventually with this
+    elif event['request']['type'] == 'SessionEndedRequest':  # stubbed here in case we do something eventually with this
         if globals.debug is True:
-            print "Session End Request"
-        return onSessionEnded(event["request"], event["session"])
+            print 'Session End Request'
+        return onSessionEnded(event['request'], event['session'])
 
 
-################################################################################
-# onSessionStarted - New Session Request Handler
-#   Input:
-#       request - "request" object as provided by Alexa JSON request
-#       session - "session" object as provided by Alexa JSON request
-#   Output:
-#       none
-################################################################################
 def onSessionStarted(request, session):
+    '''----------------------------------------------------------------------------------------------
+    Process an Alexa New Session Request
+
+    Parameters
+    ----------
+    request : dictionary
+        The 'request' section of the Alexa JSON Request object
+    session : dictionary
+        The 'session' section of the Alexa JSON Request object
+
+    Returns
+    -------
+    none
+
+    ----------------------------------------------------------------------------------------------'''
     if globals.debug is True:
-        print "Starting new session."
+        print 'Starting new session.'
 
 
-################################################################################
-# onIntent - Intent Requst Handler
-#   Input:
-#       request - "request" object as provided by Alexa JSON request
-#       session - "session" object as provided by Alexa JSON request
-#       context - "context" as provided by Alexa JSON reuest
-#   Output:
-#       none
-################################################################################
 def onIntent(request, session, context):
-    intent = request["intent"]  # passed on to functions that have slots
-    intentName = intent["name"]
-    system = context["System"]
+    '''----------------------------------------------------------------------------------------------
+    Process an Alexa Intent Request
+
+    Parameters
+    ----------
+        request : dictionary
+            The 'request' section of the Alexa JSON Request object
+        session : dictionary
+            The 'session' section of the Alexa JSON Request object
+        context : dictionary
+            The 'context' section of the Alexa JSON Request object
+
+    Returns
+    -------
+        dictionary
+            The Alexa JSON Response object
+
+    Raises
+    ------
+        ValueError
+            Invalid intent
+    ----------------------------------------------------------------------------------------------'''
+
+    intent = request['intent']  # passed on to functions that have slots
+    intentName = intent['name']
+    system = context['System']
 
     if globals.debug is True:
-        print "_______________________________________________________________"
-        print "starting %s()" % intentName
-        print "_______________________________________________________________"
+        print '_______________________________________________________________'
+        print 'starting %s()' % intentName
+        print '_______________________________________________________________'
 
-    if intentName == "BasicCall":
+    if intentName == 'BasicCall':
         return basicCall(system)
-    elif intentName == "BasicCallWithSlot":
+    elif intentName == 'BasicCallWithSlot':
         return basicCallWithSlot(system, intent)
-    elif intentName == "AMAZON.HelpIntent":
+    elif intentName == 'AMAZON.HelpIntent':
         return getHelp(request, session)
-    elif intentName == "AMAZON.CancelIntent" or intentName == "AMAZON.StopIntent":
+    elif intentName == 'AMAZON.CancelIntent' or intentName == 'AMAZON.StopIntent':
         return handleSessionEndRequest()
     else:
-        raise ValueError("Invalid intent")
+        raise ValueError('Invalid intent')
 
 
-################################################################################
-# onLaunch - Launch Requst Handler.
-#   Input:
-#       request - request object from Alexa
-#       session - session object from Alexa
-#       contexxt = context object from Alexa
-#   Output:
-#       none
-################################################################################
 def onLaunch(request, session, context):
-    system = context["System"]
+    '''----------------------------------------------------------------------------------------------
+    Process an Alexa Launch Request. This is used when an Alexa skill is invoked with no parameters
+
+    Parameters
+    ----------
+        request : dictionary
+            The 'request' section of the Alexa JSON Request object
+        session : dictionary
+            The 'session' section of the Alexa JSON Request object
+        context : dictionary
+            The 'context' section of the Alexa JSON Request object
+
+    Returns
+    -------
+        dictionary
+            The Alexa JSON Response object
+
+    ----------------------------------------------------------------------------------------------'''
+
+    system = context['System']
     # Currently configured so that if a user launcehs our app, we will do the same
     # as invoking the app intent with no parameters
     return basicCall(system)
 
 
-################################################################################
-# onSessionEnded - Session End Request Handler for nomral endings
-#   Input:
-#       request - "request" object as provided by Alexa JSON request
-#       session - "session" object as provided by Alexa JSON request
-#   Output:
-#       none
-################################################################################
 def onSessionEnded(request, session):
+    '''----------------------------------------------------------------------------------------------
+    Process an Alexa Session End Request. Not to be confused with a Stop or Cancel event.
+
+    Parameters
+    ----------
+        request : dictionary
+            The 'request' section of the Alexa JSON Request object
+        session : dictionary
+            The 'session' section of the Alexa JSON Request object
+
+    Returns
+    -------
+        dictionary
+            The Alexa JSON Response object
+
+    ----------------------------------------------------------------------------------------------'''
     if globals.debug is True:
-        print "Ending session."
+        print 'Ending session.'
