@@ -48,7 +48,8 @@ def buildSpeechletResponse(title, output, reprompt="Knock Knock", shouldEndSessi
 
     Returns
     -------
-        'Response' section of the Alexa JSON Response object
+        dictionary
+            'Response' section of the Alexa JSON Response object
 
     ----------------------------------------------------------------------------------------------'''
 
@@ -96,7 +97,8 @@ def buildDelegateDirective(intentName=None, slotName=None, value=None):
 
     Returns
     -------
-        'Response' section of the Alexa JSON Response object
+        dictionary
+            'Response' section of the Alexa JSON Response object
     ----------------------------------------------------------------------------------------------'''
     if intentName:  # indicating we want to change a slot's default
         d = {
@@ -152,7 +154,8 @@ def buildElicitSlotDirective(slotName, output, reprompt):
 
     Returns
     -------
-        'Response' section of the Alexa JSON Response object
+        dictionary
+            'Response' section of the Alexa JSON Response object
     ----------------------------------------------------------------------------------------------'''
     if globals.debug:
         print '>>buildElicitSlotDirective slotName: %s, %s' % (slotName, output)
@@ -181,15 +184,20 @@ def buildElicitSlotDirective(slotName, output, reprompt):
     }
 
 
-################################################################################
-# buildPermsNeededResponse - Handle getting permissions from user
-#   Input:
-#       output - the string you would like read to the user in SSML.
-#   Output:
-#       Fully formed 'response' portion of card. Note this is not the full card
-################################################################################
 def buildPermsNeededResponse(output):
+    '''----------------------------------------------------------------------------------------------
+    Hnadle getting the permissions from user with prompt
 
+    Parameters
+    ----------
+        output : string
+            Text you ant said to user
+
+    Returns
+    -------
+        dictionary
+            'Response' section of the Alexa JSON Response object
+    ----------------------------------------------------------------------------------------------'''
     return {
         'outputSpeech': {
             'type': 'Simple',

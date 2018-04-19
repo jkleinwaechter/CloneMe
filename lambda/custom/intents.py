@@ -82,14 +82,6 @@ def basicCall(system):
     return buildResponse(session_attributes, buildSpeechletResponse(card_title, speech, reprompt_text, shouldEndSession))
 
 
-################################################################################
-# basicCallWithSlot - This is the intent handler for a basic call with a slot
-#   Input:
-#       system - 'system' as provided in the intent request
-#       intent - 'intent' object as provided by Alexa JSON request
-#   Output:
-#       Response card - Fully formed response card
-################################################################################
 def basicCallWithSlot(system, intent):
     '''----------------------------------------------------------------------------------------------
     This is the intent handler for a basic call with a slot
@@ -124,16 +116,6 @@ def basicCallWithSlot(system, intent):
     return buildResponse(session_attributes, buildSpeechletResponse(card_title, speech, reprompt_text, shouldEndSession))
 
 
-################################################################################
-# getNumericSlot
-#   Input:
-#       intent - 'intent' object as provided by Alexa JSON request
-#   Output:
-#       (integer) - An integer of the slot number to use in the array (1 based)
-#           0 indicates out of bounds
-#   Raises:
-#       ExIndexOutofBounds - could not detect a value
-#################################################################################
 def getNumericSlot(intent):
     '''----------------------------------------------------------------------------------------------
     Read the value for a numeric voice slot
